@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="referrer" content="no-referrer" />
+<title>Payment Page</title>
+<script src="https://sapui5.hana.ondemand.com/1.96.10/resources/sap/ui/thirdparty/jquery.js"></script>
+</head>
+<body>
+	<script>
+		var oDpApi;
+		
+		var initLib = function() {
+			var script = document.createElement('script');
+			script.onload = function() {
+				com.sap.fin.digital.payments.jslib.Loader.initLibrary($("#APISessionId").val()).then(function(dpApi) {
+					oDpApi = dpApi;
+					alert("Lib loaded");
+				}).catch(function(oError) {
+						alert("error");
+				});
+			};
+			script.id = "com.sap.digital.payments.jslib.loader";
+			script.src = $("#LoaderUrl").val();
+			document.head.appendChild(script);
+		}
+		
+		var doPayment = function() {
+			oDpApi.doPayment($("#ConfigId").val(), $("#TransactionId").val(), "buttons").then(function(sTransactionByPaytSrvcPrvdr) {
+				alert(sTransactionByPaytSrvcPrvdr);
+			});
+		}
+	</script>
+
+
+	<br> LoaderUrl <input id="LoaderUrl" value="http://localhost:10000/dpjslib/latest/loader.min.js" size="100">
+	<br> APISessionId <input id="APISessionId" value="" size="100">
+	<br> <button onClick="initLib()">Init Lib</button>
+	<br>
+	<br>TransactionId <input id="TransactionId" value="" size="100">
+	<br>ConfigId <input id="ConfigId" value="config1" size="100">
+	<br> <button onClick="doPayment()">checkout</button>
+	<br>
+	<div id="buttons"></div>
+
+</body>
+</html>
