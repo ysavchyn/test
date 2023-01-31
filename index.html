@@ -28,7 +28,7 @@
 		var doPayment = function() {
 			oDpApi.doPayment($("#ConfigId").val(), $("#TransactionId").val(), "buttons").then(function(sTransactionByPaytSrvcPrvdr) {
 				alert(sTransactionByPaytSrvcPrvdr);
-			});
+			}).catch(function(error) { console.log(error.message); });
 		}
 	</script>
 
